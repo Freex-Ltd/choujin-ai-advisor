@@ -26,7 +26,7 @@
             <h1 class="hero-title">あなたの会社に、<span class="text-gradient">AI顧問</span>を。</h1>
             <p class="hero-subtitle">ツール選びも、業務への組み込み方も、あなたの業界に合わせてわかりやすく。<br>AIのことについて気軽に聞けるサービスです。</p>
             <div class="hero-cta">
-                <button class="btn btn-primary" id="hero-cta-btn">無料で相談する</button>
+                <a href="#consultation-form" class="btn btn-primary" id="hero-cta-btn">無料で相談する</a>
             </div>
         </div>
         <div class="hero-bg-overlay"></div>
@@ -443,10 +443,41 @@
 
             <p class="cta-sub">初回のヒアリングは無料です。<br>「うちの業務にAIって使えるの？」——その疑問から、お気軽にどうぞ。</p>
 
-            <div class="cta-actions">
-                <button class="btn btn-primary btn-large cta-btn" id="footer-cta-btn">無料で相談する</button>
+            <div class="inline-form-container glass-container text-left mt-5" id="form-section">
+                <div class="modal-header">
+                    <h3>無料相談のお申し込み</h3>
+                    <p>以下のフォームよりお気軽にご連絡ください。<br>担当者より1〜2営業日以内にご返信いたします。</p>
+                </div>
+                <form class="contact-form" id="consultation-form" action="https://formspree.io/f/meerjbkj"
+                    method="POST">
+                    <div class="form-group">
+                        <label for="companyName">会社名 <span class="required">必須</span></label>
+                        <input type="text" id="companyName" name="companyName" required placeholder="例：合同会社CHOUJIN">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactName">ご担当者名 <span class="required">必須</span></label>
+                        <input type="text" id="contactName" name="contactName" required placeholder="例：山田 太郎">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">必須</span></label>
+                        <input type="email" id="email" name="email" required placeholder="例：info@choujin.net">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">ご相談内容（任意）</label>
+                        <textarea id="message" name="message" rows="4"
+                            placeholder="現状の課題やAIで解決したいことなどがあればご記入ください。"></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary btn-large w-100">送信する</button>
+                    </div>
+                </form>
+                <!-- Success Message (Hidden by default) -->
+                <div class="form-success-message" id="form-success" style="display: none;">
+                    <div class="success-icon">✓</div>
+                    <h4>送信が完了しました</h4>
+                    <p>お問い合わせありがとうございます。<br>担当者より順次ご連絡させていただきますので、今しばらくお待ちください。</p>
+                </div>
             </div>
-            <p class="cta-contact-note">※ 無料相談フォームが開きます（約1分で入力完了）</p>
         </div>
     </section>
 
@@ -462,46 +493,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Contact Modal -->
-    <div class="modal-overlay" id="contact-modal">
-        <div class="modal-content glass-container">
-            <button class="modal-close" id="modal-close-btn">&times;</button>
-            <div class="modal-header">
-                <h3>無料相談のお申し込み</h3>
-                <p>以下のフォームよりお気軽にご連絡ください。<br>担当者より1〜2営業日以内にご返信いたします。</p>
-            </div>
-            <form class="contact-form" id="consultation-form" name="consultation" netlify method="POST">
-                <div class="form-group">
-                    <label for="companyName">会社名 <span class="required">必須</span></label>
-                    <input type="text" id="companyName" name="companyName" required placeholder="例：合同会社CHOUJIN">
-                </div>
-                <div class="form-group">
-                    <label for="contactName">ご担当者名 <span class="required">必須</span></label>
-                    <input type="text" id="contactName" name="contactName" required placeholder="例：山田 太郎">
-                </div>
-                <div class="form-group">
-                    <label for="email">メールアドレス <span class="required">必須</span></label>
-                    <input type="email" id="email" name="email" required placeholder="例：info@choujin.net">
-                </div>
-                <div class="form-group">
-                    <label for="message">ご相談内容（任意）</label>
-                    <textarea id="message" name="message" rows="4"
-                        placeholder="現状の課題やAIで解決したいことなどがあればご記入ください。"></textarea>
-                </div>
-                <div class="form-submit">
-                    <button type="submit" class="btn btn-primary btn-large w-100">送信する</button>
-                </div>
-            </form>
-            <!-- Success Message (Hidden by default) -->
-            <div class="form-success-message" id="form-success" style="display: none;">
-                <div class="success-icon">✓</div>
-                <h4>送信が完了しました</h4>
-                <p>お問い合わせありがとうございます。<br>担当者より順次ご連絡させていただきますので、今しばらくお待ちください。</p>
-                <button class="btn btn-primary mt-4" id="success-close-btn">閉じる</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <script src="js/script.js"></script>

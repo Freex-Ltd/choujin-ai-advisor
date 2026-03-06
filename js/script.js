@@ -69,79 +69,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Contact Modal Logic
-    const modal = document.getElementById('contact-modal');
-    const heroBtn = document.getElementById('hero-cta-btn');
-    const footerBtn = document.getElementById('footer-cta-btn');
-    const closeBtn = document.getElementById('modal-close-btn');
+    // 4. Contact Form Logic
     const form = document.getElementById('consultation-form');
     const successMsg = document.getElementById('form-success');
-    const successCloseBtn = document.getElementById('success-close-btn');
 
-    function openModal() {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    }
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+            // Change button state to loading
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '送信中...';
+            submitBtn.disabled = true;
 
-        // Reset form state after modal closes
-        setTimeout(() => {
-            form.style.display = 'block';
-            successMsg.style.display = 'none';
-            form.reset();
-        }, 400);
-    }
+            const formData = new FormData(form);
 
-    if (heroBtn) heroBtn.addEventListener('click', openModal);
-    if (footerBtn) footerBtn.addEventListener('click', openModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (successCloseBtn) successCloseBtn.addEventListener('click', closeModal);
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
 
-    // Close modal on outside click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Handle form submission using Netlify Forms
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Change button state to loading
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = '送信中...';
-        submitBtn.disabled = true;
-
-        const formData = new URLSearchParams(new FormData(form));
-
-        try {
-            const response = await fetch('/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                if (response.ok) {
+                    // Hide form, show success message
+                    form.style.display = 'none';
+                    successMsg.style.display = 'block';
+                } else {
+                    alert('送信に失敗しました。時間をおいて再度お試しください。');
                 }
-            });
-
-            if (response.ok) {
-                // Hide form, show success message
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-            } else {
-                alert('送信に失敗しました。時間をおいて再度お試しください。');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('通信エラーが発生しました。ネットワーク環境をご確認ください。');
+            } finally {
+                // Revert button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('通信エラーが発生しました。ネットワーク環境をご確認ください。');
-        } finally {
-            // Revert button state
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    });
+        });
+    }
 });
