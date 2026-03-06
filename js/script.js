@@ -107,8 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle form submission (Mock logic for now, waiting for backend handler setup)
-    form.addEventListener('submit', (e) => {
+    // Handle form submission using Formspree
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Change button state to loading
@@ -117,15 +117,31 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = '送信中...';
         submitBtn.disabled = true;
 
-        // Simulate network request
-        setTimeout(() => {
-            // Hide form, show success message
-            form.style.display = 'none';
-            successMsg.style.display = 'block';
+        const formData = new FormData(form);
 
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Hide form, show success message
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+            } else {
+                alert('送信に失敗しました。時間をおいて再度お試しください。');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('通信エラーが発生しました。ネットワーク環境をご確認ください。');
+        } finally {
             // Revert button state
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-        }, 800);
+        }
     });
 });

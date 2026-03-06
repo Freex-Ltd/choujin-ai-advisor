@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo create choujin-ai-advisor --public --push --source=/Users/ritz/choujin-ai-advisor)",
+      "Bash(gh repo transfer ritzcr/choujin-ai-advisor Freex-Ltd --yes)",
+      "Bash(gh repo create Freex-Ltd/choujin-ai-advisor --public --push --source=/Users/ritz/choujin-ai-advisor)",
+      "Bash(gh auth refresh -h github.com -s delete_repo)"
+    ]
+  }
+}
