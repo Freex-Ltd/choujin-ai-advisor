@@ -83,14 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = '送信中...';
             submitBtn.disabled = true;
 
-            const formData = new FormData(form);
+            const formData = new URLSearchParams(new FormData(form));
 
             try {
-                const response = await fetch(form.action, {
-                    method: form.method,
+                const response = await fetch('/', {
+                    method: 'POST',
                     body: formData,
                     headers: {
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
 
