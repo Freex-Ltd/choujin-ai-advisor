@@ -28,7 +28,49 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hero) hero.classList.add('active');
     }, 100);
 
-    // 2. FAQ Accordion
+    // 2. Header Navigation - show/hide on scroll
+    const header = document.getElementById('site-header');
+    const hamburger = document.getElementById('hamburger');
+    const headerNav = document.getElementById('header-nav');
+    let lastScrollY = 0;
+
+    if (header) {
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            const heroHeight = document.getElementById('hero')?.offsetHeight || 500;
+
+            // Show header after scrolling past hero
+            if (currentScrollY > heroHeight * 0.5) {
+                header.classList.add('visible', 'scrolled');
+            } else {
+                header.classList.remove('visible', 'scrolled');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+    }
+
+    // Hamburger menu toggle
+    if (hamburger && headerNav) {
+        hamburger.addEventListener('click', () => {
+            const isOpen = headerNav.classList.toggle('open');
+            hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            hamburger.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+        });
+
+        // Close menu when a nav link is clicked
+        headerNav.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                headerNav.classList.remove('open');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.setAttribute('aria-label', 'メニューを開く');
+            });
+        });
+    }
+
+    // 3. FAQ Accordion
     const faqItems = document.querySelectorAll('.faq-item');
 
     faqItems.forEach(item => {
