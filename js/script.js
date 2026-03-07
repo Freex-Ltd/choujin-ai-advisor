@@ -137,6 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
+                    // Send conversion event to GA4
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'generate_lead', {
+                            event_category: 'form',
+                            event_label: 'consultation_form'
+                        });
+                    }
+
                     // Hide form, show success message
                     form.style.display = 'none';
                     successMsg.style.display = 'block';
