@@ -339,6 +339,7 @@ section { padding: var(--section-padding) 0; }
   padding-top: 0;
   text-align: center;
   position: relative;
+  overflow: hidden;
   background: var(--bg-main);
 }
 
