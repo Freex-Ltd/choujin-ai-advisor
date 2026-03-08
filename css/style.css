@@ -345,7 +345,21 @@ section { padding: var(--section-padding) 0; }
 /* Remove decorative pseudo-elements */
 .hero::before, .hero::after { display: none; }
 
-.hero-bg-overlay { display: none; }
+.hero-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  z-index: 1;
+}
 
 .hero-content {
   position: relative;
