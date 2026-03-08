@@ -300,18 +300,36 @@ section { padding: var(--section-padding) 0; }
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   margin-bottom: 16px;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
 .section-lead {
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
   line-height: 1.8;
+}
+
+/* ===================================
+   Section Photos
+   =================================== */
+.section-photo {
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-photo-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
 }
 
 /* ===================================
@@ -390,7 +408,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .hero-subtitle {
-  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
   color: var(--text-muted);
   margin-bottom: 40px;
   line-height: 2;
@@ -444,7 +462,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .problem-title {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   margin-bottom: 12px;
   font-weight: 700;
   line-height: 1.5;
@@ -452,7 +470,7 @@ section { padding: var(--section-padding) 0; }
 
 .problem-desc {
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.8;
 }
 
@@ -468,7 +486,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .solution-lead {
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: var(--text-muted);
   margin-top: 12px;
   line-height: 1.9;
@@ -508,14 +526,14 @@ section { padding: var(--section-padding) 0; }
 }
 
 .feature-content h3 {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .feature-content p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1.8;
 }
 
@@ -536,7 +554,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .highlight-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: var(--accent-warm);
   font-weight: 700;
   margin-bottom: 20px;
@@ -545,7 +563,7 @@ section { padding: var(--section-padding) 0; }
 .difference-text {
   color: var(--text-secondary);
   line-height: 2;
-  font-size: 0.93rem;
+  font-size: 1.05rem;
   margin-bottom: 8px;
 }
 
@@ -558,7 +576,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .points-lead {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   margin-bottom: 16px;
   color: var(--text-main);
   line-height: 1.8;
@@ -572,7 +590,7 @@ section { padding: var(--section-padding) 0; }
   margin-bottom: 10px;
   color: var(--text-secondary);
   line-height: 1.7;
-  font-size: 0.93rem;
+  font-size: 1.05rem;
 }
 
 .check-list li::before {
@@ -586,7 +604,7 @@ section { padding: var(--section-padding) 0; }
 
 .points-conclusion {
   color: var(--text-secondary);
-  font-size: 0.93rem;
+  font-size: 1.05rem;
 }
 
 /* Profile Card — horizontal layout */
@@ -642,7 +660,7 @@ section { padding: var(--section-padding) 0; }
 
 .profile-desc {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1.8;
 }
 
@@ -667,9 +685,9 @@ section { padding: var(--section-padding) 0; }
 
 .chat-bubble {
   max-width: 80%;
-  padding: 12px 18px;
+  padding: 14px 20px;
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.7;
 }
 
@@ -736,13 +754,13 @@ section { padding: var(--section-padding) 0; }
 }
 
 .step-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin-bottom: 8px;
   font-weight: 700;
 }
 
 .step-desc {
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.6;
 }
@@ -774,13 +792,13 @@ section { padding: var(--section-padding) 0; }
 }
 
 .service-detail-item h4 {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   margin-bottom: 6px;
   font-weight: 700;
 }
 
 .service-detail-item p {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.8;
 }
@@ -828,7 +846,7 @@ section { padding: var(--section-padding) 0; }
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .scope-list li:last-child { border-bottom: none; }
@@ -869,7 +887,7 @@ section { padding: var(--section-padding) 0; }
   align-items: center;
   color: var(--text-main);
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   text-align: left;
@@ -920,7 +938,7 @@ section { padding: var(--section-padding) 0; }
 .faq-answer p {
   padding: 0 0 20px;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1.9;
 }
 
@@ -1029,7 +1047,7 @@ section { padding: var(--section-padding) 0; }
 }
 
 .cta-sub {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
   margin-bottom: 36px;
   line-height: 1.9;
@@ -1205,7 +1223,7 @@ textarea { resize: vertical; min-height: 100px; }
    =================================== */
 @media (max-width: 992px) {
   .glass-container { padding: 36px 24px; }
-  .section-title { font-size: 1.7rem; }
+  .section-title { font-size: 2rem; }
   .service-grid { grid-template-columns: 1fr; }
   .profile-card-horizontal { flex-direction: column; align-items: center; text-align: center; }
 }
@@ -1220,8 +1238,8 @@ textarea { resize: vertical; min-height: 100px; }
 @media (max-width: 600px) {
   :root { --section-padding: 72px; }
 
-  .hero-title { font-size: 2.2rem; }
-  .section-title { font-size: 1.5rem; }
+  .hero-title { font-size: 2.4rem; }
+  .section-title { font-size: 1.7rem; }
   .steps-grid { grid-template-columns: 1fr; }
   .price-box { padding: 36px 24px; }
   .campaign-amount { font-size: 2.5rem; }
