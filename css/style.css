@@ -507,28 +507,25 @@ section { padding: var(--section-padding) 0; }
   background: var(--bg-alt);
 }
 
-/* Remove decorative gradient */
 .difference::before { display: none; }
 
-.difference > .container { position: relative; z-index: 1; }
-
-.difference-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: start;
+.difference-body {
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .highlight-title {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   color: var(--accent-warm);
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
-.difference-content p {
+.difference-text {
   color: var(--text-secondary);
-  line-height: 1.9;
+  line-height: 2;
   font-size: 0.93rem;
+  margin-bottom: 8px;
 }
 
 .strong-points {
@@ -571,30 +568,23 @@ section { padding: var(--section-padding) 0; }
   font-size: 0.93rem;
 }
 
-/* Profile Card */
-.profile-card {
-  padding: 32px;
-  background: var(--bg-main);
-  position: sticky;
-  top: 80px;
+/* Profile Card — horizontal layout */
+.profile-card-horizontal {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px 32px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 12px;
 }
 
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.profile-avatar {
-  width: 64px; height: 64px;
+.profile-card-horizontal .profile-avatar {
+  width: 72px; height: 72px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  /* Remove gradient border */
-  background: none;
-  padding: 0;
 }
 
 .avatar-img {
@@ -602,6 +592,10 @@ section { padding: var(--section-padding) 0; }
   border-radius: 50%;
   object-fit: cover;
   display: block;
+}
+
+.profile-info {
+  flex: 1;
 }
 
 .profile-role {
@@ -613,8 +607,9 @@ section { padding: var(--section-padding) 0; }
 }
 
 .profile-name {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   margin-top: 2px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
 
@@ -626,12 +621,9 @@ section { padding: var(--section-padding) 0; }
 
 .profile-desc {
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   line-height: 1.8;
 }
-
-.profile-desc p { margin-bottom: 8px; }
-.profile-desc p:last-child { margin-bottom: 0; }
 
 /* ===================================
    Examples Section — Chat UI
@@ -1191,11 +1183,10 @@ textarea { resize: vertical; min-height: 100px; }
    Responsive
    =================================== */
 @media (max-width: 992px) {
-  .difference-layout { grid-template-columns: 1fr; }
-  .profile-card { margin-top: 24px; position: static; }
   .glass-container { padding: 36px 24px; }
   .section-title { font-size: 1.7rem; }
   .service-grid { grid-template-columns: 1fr; }
+  .profile-card-horizontal { flex-direction: column; align-items: center; text-align: center; }
 }
 
 @media (max-width: 768px) {
