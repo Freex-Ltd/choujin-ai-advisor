@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const hero = document.getElementById('hero');
         if (hero) hero.classList.add('active');
+        // Trigger floating question animations
+        document.querySelectorAll('.floating-q').forEach(q => q.classList.add('visible'));
     }, 100);
 
     // 2. Header Navigation - show/hide on scroll
