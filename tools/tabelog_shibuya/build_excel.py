@@ -107,21 +107,24 @@ def build(rows: list[dict], out_path: str, source: str) -> None:
 
     # ---------- ジャンル展開（全ジャンル集計用の縦持ち） ----------
     ws_long = wb.create_sheet("ジャンル展開")
-    ws_long.append(["店名", "ジャンル"])
-    style_header(ws_long, 1, 2)
+    ws_long.append(["店名", "ジャンル", "点数"])
+    style_header(ws_long, 1, 3)
     long_count = 0
     for row in rows:
         for genre in [g.strip() for g in row.get("全ジャンル", "").split("、") if g.strip()]:
-            ws_long.append([row.get("店名", ""), genre])
+            ws_long.append([row.get("店名", ""), genre, to_float(row.get("点数", ""))])
             long_count += 1
     for r in range(2, long_count + 2):
-        for c in (1, 2):
+        for c in (1, 2, 3):
             ws_long.cell(row=r, column=c).font = BASE_FONT
+        ws_long.cell(row=r, column=3).number_format = "0.00"
     ws_long.freeze_panes = "A2"
-    autosize(ws_long, {1: 34, 2: 20})
-    ws_long["D1"] = "このシートは集計用です（1店舗の複数ジャンルを1行1ジャンルに展開）。"
-    ws_long["D1"].font = NOTE_FONT
-    LONG = f"ジャンル展開!$B$2:$B${long_count + 1}"
+    autosize(ws_long, {1: 34, 2: 20, 3: 8})
+    ws_long["E1"] = "このシートは集計用です（1店舗の複数ジャンルを1行1ジャンルに展開）。"
+    ws_long["E1"].font = NOTE_FONT
+    long_last = long_count + 1
+    LONG_GENRE = f"ジャンル展開!$B$2:$B${long_last}"
+    LONG_SCORE = f"ジャンル展開!$C$2:$C${long_last}"
 
     # ---------- 統計_点数 ----------
     ws_score = wb.create_sheet("統計_点数", 0)
@@ -184,19 +187,26 @@ def build(rows: list[dict], out_path: str, source: str) -> None:
     ws_genre.append(["ジャンル", "件数（主ジャンル）", "延べ件数（全ジャンル）", "構成比", "平均点"])
     style_header(ws_genre, 3, 5)
 
-    # 並び順はPython側で決定（主ジャンル件数の降順）、値そのものは数式で算出
-    order = [g for g, _ in Counter(
-        r.get("主ジャンル", "") for r in rows if r.get("主ジャンル", "")
-    ).most_common()]
+    # 副ジャンルにしか現れないジャンルも表に載せるため、全ジャンルの和集合を対象にする。
+    # 並び順はPython側で決定（主ジャンル件数→延べ件数の降順）、値そのものは数式で算出。
+    main_counts = Counter(r.get("主ジャンル", "") for r in rows if r.get("主ジャンル", ""))
+    all_counts = Counter(
+        g.strip()
+        for r in rows
+        for g in r.get("全ジャンル", "").split("、")
+        if g.strip()
+    )
+    order = sorted(all_counts, key=lambda g: (-main_counts[g], -all_counts[g], g))
 
     g_first = 4
     for offset, genre in enumerate(order):
         r = g_first + offset
         ws_genre.cell(row=r, column=1, value=genre).font = BASE_FONT
         ws_genre.cell(row=r, column=2, value=f'=COUNTIF(データ!$B$2:$B${last},$A{r})').font = BASE_FONT
-        ws_genre.cell(row=r, column=3, value=f'=COUNTIF({LONG},$A{r})').font = BASE_FONT
+        ws_genre.cell(row=r, column=3, value=f'=COUNTIF({LONG_GENRE},$A{r})').font = BASE_FONT
+        # 平均点はそのジャンルを掲げる全店（主・副を問わず）を対象にする
         ws_genre.cell(row=r, column=5,
-                      value=f'=IFERROR(AVERAGEIFS({SCORE},データ!$B$2:$B${last},$A{r},{SCORE},">0"),"—")').font = BASE_FONT
+                      value=f'=IFERROR(AVERAGEIFS({LONG_SCORE},{LONG_GENRE},$A{r},{LONG_SCORE},">0"),"—")').font = BASE_FONT
         ws_genre.cell(row=r, column=5).number_format = "0.00"
     g_last = g_first + len(order) - 1 if order else g_first
     g_total = g_last + 1
@@ -221,7 +231,9 @@ def build(rows: list[dict], out_path: str, source: str) -> None:
         "「件数（主ジャンル）」は食べログ表記の先頭ジャンルで1店1カウント（合計＝総店舗数）。"
         "「延べ件数」は複数ジャンル表記をすべて数えるため合計は総店舗数を上回る。"))
     ws_genre.cell(row=gnote, column=1).font = NOTE_FONT
-    ws_genre.cell(row=gnote + 1, column=1, value="平均点は未評価店を除外して算出。")
+    ws_genre.cell(row=gnote + 1, column=1, value=(
+        "副ジャンルにのみ現れるジャンルも行として掲載する（その場合「件数（主ジャンル）」は0）。"
+        "平均点はそのジャンルを掲げる全店が対象で、未評価店は除外。"))
     ws_genre.cell(row=gnote + 1, column=1).font = NOTE_FONT
     ws_genre.cell(row=gnote + 2, column=1, value=f"出典: {source}")
     ws_genre.cell(row=gnote + 2, column=1).font = NOTE_FONT
@@ -258,7 +270,8 @@ def build(rows: list[dict], out_path: str, source: str) -> None:
         ("中央値（未評価除く）", f'=IFERROR(MEDIAN({SCORE}),"—")', "0.00"),
         ("最高点", f'=IFERROR(MAX({SCORE}),"—")', "0.00"),
         ("最低点（未評価除く）", f'=IFERROR(MIN({SCORE}),"—")', "0.00"),
-        ("ジャンル数（主ジャンル）", f"=COUNTA(統計_ジャンル!$A${g_first}:$A${g_last})", "#,##0"),
+        ("ジャンル数（全ジャンル）", f"=COUNTA(統計_ジャンル!$A${g_first}:$A${g_last})", "#,##0"),
+        ("ジャンル数（主ジャンル）", f'=COUNTIF(統計_ジャンル!$B${g_first}:$B${g_last},">0")', "#,##0"),
         ("口コミ総数", f"=SUM(データ!$F$2:$F${last})", "#,##0"),
     ]
     for offset, (label, formula, fmt) in enumerate(metrics):
@@ -281,8 +294,9 @@ def build(rows: list[dict], out_path: str, source: str) -> None:
         ("点数", "食べログの表示点数をそのまま転記。未評価（—）は空セル"),
         ("主ジャンル", "食べログのジャンル表記の先頭1つ。1店舗1カウントで合計＝総店舗数"),
         ("全ジャンル", "食べログのジャンル表記すべて。延べ件数の集計に使用"),
+        ("ジャンル一覧", "主ジャンル・副ジャンルの和集合。副ジャンルにのみ現れるジャンルは「件数（主ジャンル）」が0になる"),
         ("点数区分", "0.1点刻み（下限以上・上限未満）。3.00未満と4.00以上は別枠"),
-        ("平均点", "未評価店を除外して算出"),
+        ("平均点", "未評価店を除外して算出。ジャンル別平均はそのジャンルを掲げる全店（主・副を問わず）が対象"),
         ("注意", "食べログの点数は独自アルゴリズムによるもので、取得時点の値。時間経過で変動する"),
         ("注意", "一覧ページに表示されない店舗（掲載終了・非公開など）は含まれない"),
     ]
